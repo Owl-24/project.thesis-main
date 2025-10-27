@@ -20,6 +20,7 @@ interface TouristSpotCardProps {
   location: string;
   category: string;
   openingHours?: string;
+  rating?: string; 
 }
 
 const TouristSpotCard = ({
@@ -30,12 +31,13 @@ const TouristSpotCard = ({
   location,
   category,
   openingHours = "Open 24 hours",
+  rating = "4.5", // ⭐ default as string
 }: TouristSpotCardProps) => {
   const navigate = useNavigate();
 
   return (
     <Card className="w-full max-w-[350px] h-[400px] overflow-hidden flex flex-col bg-white hover:shadow-lg transition-shadow duration-300">
-      {/* Image */}
+      {/* 🖼️ Image */}
       <div className="relative h-48 overflow-hidden">
         <img
           src={image}
@@ -48,35 +50,39 @@ const TouristSpotCard = ({
         >
           {category}
         </Badge>
+
         <button className="group absolute top-3 left-3 bg-white w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-red-500">
           <i className="fa-solid fa-bookmark text-red-500 transition-all duration-300 group-hover:text-white"></i>
         </button>
-
-
-
-
       </div>
 
-      {/* Header */}
+      {/* 🧭 Header */}
       <CardHeader className="p-4 pb-0">
         <CardTitle className="text-xl font-bold truncate">{name}</CardTitle>
+
+        {/* ⭐ Star Rating */}
+        {rating && (
+          <p className="text-gray-800 text-sm mt-1">{rating}</p>
+
+        )}
+
+        {/* 🕒 Opening Hours */}
+        {openingHours && (
+          <p className="text-gray-500 text-xs mt-1">{openingHours}</p>
+        )}
+
+        {/* 📍 Location */}
+        <p className="text-gray-400 text-xs mt-1">{location}</p>
       </CardHeader>
 
-      {/* Content */}
+      {/* 📄 Content */}
       <CardContent className="p-4 flex-grow">
         <CardDescription className="text-sm line-clamp-3">
           {description}
         </CardDescription>
-        <div className="mt-3 space-y-1 text-sm text-gray-600">
-          <div className="flex items-center">
-            <MapPin className="w-4 h-4 mr-1 text-gray-500" />
-            <span className="truncate">{location}</span>
-          </div>
-          <div>{openingHours}</div>
-        </div>
       </CardContent>
 
-      {/* Footer */}
+      {/* 🦶 Footer */}
       <CardFooter className="p-4 pt-0 flex justify-between">
         <Button
           variant="outline"
@@ -91,12 +97,14 @@ const TouristSpotCard = ({
                 location,
                 category,
                 openingHours,
+                rating,
               },
             })
           }
         >
           View Details
         </Button>
+
         <Button
           variant="ghost"
           size="sm"
@@ -112,7 +120,6 @@ const TouristSpotCard = ({
                 },
                 (error) => {
                   console.error("Geolocation error:", error);
-                  // Fallback: use My Location if permission denied
                   const fallbackUrl = `https://www.google.com/maps/dir/?api=1&origin=My+Location&destination=${encodeURIComponent(
                     name + " " + location
                   )}`;
