@@ -123,12 +123,19 @@ const TouristSpotDetailsPage = () => {
         <div className="border-t pt-6">
           <h2 className="text-2xl font-bold mb-4 text-gray-900">User Reviews</h2>
 
-          {/* ⭐ Average Rating */}
+          {/* ⭐ Average Rating with count */}
           <p className="text-lg font-semibold text-gray-800 mb-6">
             Average Rating:{" "}
             <span className="text-yellow-500">
-              {averageRating === "No ratings yet" ? averageRating : `⭐ ${averageRating} / 5`}
+              {averageRating === "No ratings yet"
+                ? averageRating
+                : `⭐ ${averageRating} / 5`}
             </span>
+            {averageRating !== "No ratings yet" && (
+              <span className="text-gray-600 ml-2">
+                ({reviews.length} {reviews.length === 1 ? "review" : "reviews"})
+              </span>
+            )}
           </p>
 
           {/* ✏️ Add Review Box FIRST */}
